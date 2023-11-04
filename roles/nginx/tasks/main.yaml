@@ -1,0 +1,9 @@
+- name: install nginx
+  apt:
+    name: nginx
+    state: latest
+      
+- name: Replace file
+  ansible.builtin.copy:
+    src: /home/ilja/ica0002/role/nginx/files/index.html
+    dest: /var/www/html/index.html
