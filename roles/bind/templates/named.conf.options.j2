@@ -1,0 +1,20 @@
+acl corpnets { 192.168.42.0/24; 192.168.43.0/24; 127.0.0.0/8; };
+
+options {
+        directory "/var/lib/bind";
+        allow-query { corpnets; };
+
+
+         forwarders {
+              0.0.0.0;
+              1.1.1.1;
+              8.8.8.8;
+              9.9.9.9;
+              9.9.9.10;
+         };
+
+
+        dnssec-validation no;
+
+        listen-on-v6 { any; };
+};

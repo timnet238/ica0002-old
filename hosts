@@ -6,3 +6,7 @@ timnet238-1
 
 [db_servers]
 timnet238-2
+
+[dns_servers]
+timnet238-2
+

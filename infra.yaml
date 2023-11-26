@@ -4,7 +4,20 @@
     become: yes
     roles:
       - init
+
+  - name: DNS server
+    hosts: dns_servers
+    become: yes
+    gather_facts: no
+    roles: 
+      - bind
       
+  - name: DNS setup
+    hosts: all
+    roles:
+      - dns
+    become: yes 
+    
   - name: Database server
     hosts: db_servers
     roles: 
@@ -18,5 +31,7 @@
       - uwsgi
       - nginx
     become: yes
-    
+  
+
+      
 
