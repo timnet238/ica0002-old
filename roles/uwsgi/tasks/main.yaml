@@ -15,8 +15,11 @@
     enabled: yes
 
 - name: AGAMA config
-  ansible.builtin.copy:
-    src: agama.ini
+  ansible.builtin.template:
+    src: ../templates/agama.ini.j2
     dest: /etc/uwsgi/apps-enabled/agama.ini
+    owner: agama
+    mode: 0600
+  no_log: true
   notify:
     - Restart uwsgi

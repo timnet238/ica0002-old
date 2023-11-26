@@ -11,9 +11,11 @@
     group: agama
     mode: 0755
 
-- name: Install python3-flask-sqlalchemy
-  apt: 
-    name: python3-flask-sqlalchemy
+- name: Install packages
+  ansible.builtin.apt: 
+    name: 
+      - python3-flask-sqlalchemy
+      - python3-pymysql
     state: present
 
 - name: Download agama
