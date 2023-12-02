@@ -1,0 +1,5 @@
+Memory consumption
+node_memory_Active_bytes/node_memory_MemTotal_bytes*100
+
+Average CPU load
+sum by (cpu)(node_cpu_seconds_total{mode!="idle"})

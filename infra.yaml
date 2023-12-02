@@ -4,7 +4,15 @@
     become: yes
     roles:
       - init
+      - node_exporter
 
+  
+  - name: Prometheus
+    hosts: prometheus
+    gather_facts: no
+    roles:
+      - prometheus
+  
   - name: DNS server
     hosts: dns_servers
     become: yes
@@ -18,11 +26,7 @@
       - dns
     become: yes 
     
-  - name: Database server
-    hosts: db_servers
-    roles: 
-      - mysql
-    become: yes
+
   
   - name: Web server
     hosts: web_servers
@@ -33,5 +37,9 @@
     become: yes
   
 
-      
+  - name: Database server
+    hosts: db_servers
+    roles: 
+      - mysql
+    become: yes    
 

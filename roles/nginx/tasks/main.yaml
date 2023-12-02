@@ -7,7 +7,7 @@
      
  - name: nginx config
    ansible.builtin.copy:
-     src: default
+     src: ../nginx/files/default
      dest: /etc/nginx/sites-enabled/default
    notify:
      - Restart nginx
