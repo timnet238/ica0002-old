@@ -26,3 +26,6 @@
   ansible.builtin.apt:
     cache_valid_time: 86400
     
+- name: Update CA certificates
+  ansible.builtin.apt:
+    name: ca-certificates>=20230300*

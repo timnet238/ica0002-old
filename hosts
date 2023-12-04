@@ -1,5 +1,5 @@
-timnet238-1 ansible_host=193.40.156.67 ansible_port=14822 ansible_ssh_user=ubuntu
-timnet238-2 ansible_host=193.40.156.67 ansible_port=14922  ansible_ssh_user=ubuntu
+timnet238-1 ansible_host=193.40.156.67 ansible_port=1722 ansible_ssh_user=ubuntu
+timnet238-2 ansible_host=193.40.156.67 ansible_port=18722  ansible_ssh_user=ubuntu
 
 
 [web_servers]
@@ -13,4 +13,7 @@ timnet238-2
 
 [prometheus]
 timnet238-2
+
+[grafana]
+timnet238-1
 

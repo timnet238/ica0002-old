@@ -6,19 +6,13 @@
       - init
       - node_exporter
 
-  
-  - name: Prometheus
-    hosts: prometheus
-    gather_facts: no
-    roles:
-      - prometheus
-  
   - name: DNS server
     hosts: dns_servers
     become: yes
     gather_facts: no
     roles: 
       - bind
+      - bind_exporter
       
   - name: DNS setup
     hosts: all
@@ -26,7 +20,19 @@
       - dns
     become: yes 
     
-
+  - name: Prometheus
+    hosts: prometheus
+    gather_facts: no
+    roles:
+      - prometheus
+      - nginx_exporter
+    
+  - name: Database server
+    hosts: db_servers
+    roles: 
+      - mysql
+      - mysql_exporter
+    become: yes    
   
   - name: Web server
     hosts: web_servers
@@ -34,12 +40,17 @@
       - agama
       - uwsgi
       - nginx
+      - nginx_exporter
     become: yes
   
+  - name: Grafana
+    hosts: grafana
+    roles:
+      - grafana
+    become: yes
+    tags: g
 
-  - name: Database server
-    hosts: db_servers
-    roles: 
-      - mysql
-    become: yes    
 
+
+
+  

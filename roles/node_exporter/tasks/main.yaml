@@ -1,20 +1,19 @@
-- name: Create a directory
-  ansible.builtin.file:
-    path: /etc/node_exporter
-    state: directory
+- name: Install prometheus node exporters
+  ansible.builtin.apt:
+    name: prometheus-node-exporter
+    state: present
 
-- name: Install Prometheus Node Exporters
-  ansible.builtin.unarchive:
-    src: "https://github.com/prometheus/node_exporter/releases/download/v1.4.0/node_exporter-1.4.0.linux-amd64.tar.gz"
-    dest: /etc/node_exporter/
-    remote_src: yes
-    validate_certs: no
-
-
-- name: Restart node_exporter when changes are applied
+- name: Configure Node exporter
   ansible.builtin.template:
     src: node_exporter.service.j2
-    dest: /etc/node_exporter/node_exporter.service
-  notify: 
-     - Daemon reload
-     - Restart node_exporter
+    dest: /etc/systemd/system/node_exporter.service
+  notify:
+      - Daemon reload
+      - Restart node_exporter
+
+- name: Start and enable node exporters service
+  ansible.builtin.service:
+    name: prometheus-node-exporter
+    state: started
+    enabled: yes
+

@@ -5,6 +5,10 @@ server {
 	location /prometheus {
 	        proxy_pass http://localhost:9090;
 	}
+	
+	location /nginx-metrics {
+	    proxy_pass http://localhost:9113/metrics;
+	}
 }
 
 

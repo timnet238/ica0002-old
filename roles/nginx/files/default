@@ -6,6 +6,15 @@ server {
 		uwsgi_pass localhost:5000;
 		include uwsgi_params;
 	}
+	
+	location /nginx-metrics {
+	    proxy_pass http://localhost:9113/metrics;
+	}
+	
+	location /grafana {
+	    proxy_pass http://localhost:3000;
+	    proxy_set_header Host $http_host;
+	}
 }
 
 
