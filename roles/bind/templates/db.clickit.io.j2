@@ -9,3 +9,4 @@ clickit.io.    IN    SOA    timnet238-1.clickit.io. ilja.clickit.io. (
 clickit.io.    IN    NS    timnet238-1
 timnet238-1    IN    A    {{ hostvars['timnet238-1']['ansible_default_ipv4']['address'] }}
 timnet238-2    IN    A    {{ hostvars['timnet238-2']['ansible_default_ipv4']['address'] }}
+backup        IN      A       {{ backup_server }}

@@ -5,6 +5,8 @@
     roles:
       - init
       - node_exporter
+      - backup
+    tags: i
 
   - name: DNS server
     hosts: dns_servers
@@ -13,6 +15,7 @@
     roles: 
       - bind
       - bind_exporter
+    tags: b
       
   - name: DNS setup
     hosts: all
