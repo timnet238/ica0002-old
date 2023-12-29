@@ -50,7 +50,20 @@
     become: yes
     tags: g
 
-
+  - name: influxdb
+    hosts: influxdb
+    roles:
+      - influxdb
+      - influxdb_exporter
+    become: yes
+    tags: i
+    
+  - name: pinger
+    hosts: pinger
+    roles:
+      - pinger
+    become: yes
+    tags: p
 
 
   

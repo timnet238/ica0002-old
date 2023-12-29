@@ -56,6 +56,15 @@
     dest: /etc/grafana/provisioning/datasources/
   notify:
     - Restart grafana
+    
+
+- name: Add syslog dashboard json file
+  ansible.builtin.copy:
+    src: ../files/syslog.json
+    dest: /var/lib/grafana/dashboards/
+  notify:
+    - Restart grafana
+
 
 - name: Add dashboard file
   ansible.builtin.template:

@@ -1,0 +1,10 @@
+- name: Restart rsyslog
+  ansible.builtin.service:
+    name: rsyslog
+    state: restarted
+
+- name: Restart telegraf
+  ansible.builtin.service:
+    name: telegraf
+    state: restarted
+  when: telegraf_service_file.stat.exists

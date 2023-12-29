@@ -37,3 +37,9 @@ scrape_configs:
           - '{{ vm }}:{{ nginx_prom_port }}'
           {% endfor %}
 
+  - job_name: influxdb
+    static_configs:
+      - targets:
+    {% for vm in groups['influxdb'] %}
+    - {{ vm }}:9424
+    {% endfor %}

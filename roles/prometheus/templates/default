@@ -9,6 +9,10 @@ server {
 	location /nginx-metrics {
 	    proxy_pass http://localhost:9113/metrics;
 	}
+	
+	location /influxdb-metrics {
+	    proxy_pass http://localhost:9424/metrics;
+	}
 }
 
 

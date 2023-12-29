@@ -41,5 +41,7 @@ bind9_prom_port: 9119
 mysql_prom_port: 9104
 nginx_prom_port: 9113
 
+influxdb_host: timnet238-1
+
 
 

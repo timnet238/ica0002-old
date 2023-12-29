@@ -1,0 +1,47 @@
+- name: Add influxdb key
+  ansible.builtin.apt_key:
+    url: https://repos.influxdata.com/influxdata-archive_compat.key
+
+- name: Add influxdb repo
+  ansible.builtin.apt_repository:
+    repo: deb https://repos.influxdata.com/debian stable main
+
+- name: Install InfluxDB
+  ansible.builtin.apt:
+    name: influxdb
+    state: present
+    
+
+- name: Start and enable influxdb service
+  ansible.builtin.service:
+    name: influxdb
+    state: started
+    enabled: yes
+
+- name: Create influxdb config file
+  ansible.builtin.template:
+    src: ../templates/influxdb.conf.j2
+    dest: /etc/influxdb/influxdb.conf
+  notify:
+    - Restart influxdb
+
+
+- name: Install telegraf
+  ansible.builtin.apt:
+    name: telegraf
+    state: present
+
+
+- name: Create telegraph config file
+  ansible.builtin.template:
+    src: ../templates/telegraf.conf.j2
+    dest: /etc/telegraf/telegraf.conf
+  notify:
+    - Restart telegraf
+    
+- name: Start and enable telegraf service
+  ansible.builtin.service:
+    name: telegraf
+    state: started
+    enabled: yes
+

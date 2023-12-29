@@ -19,3 +19,17 @@ datasources:
    version: 1
    # <bool> allow users to edit datasources from the UI.
    editable: true
+   
+ - name: InfluxDB
+   type: influxdb
+   access: proxy
+   url: http://timnet238-1:8086
+   database: latency
+   editable: true
+
+ - name: InfluxDB-telegraf
+   type: influxdb
+   access: proxy
+   url: http://timnet238-1:8086
+   database: telegraf
+   editable: true
