@@ -1,52 +1,35 @@
-## Backup SLA
+### Backup Restore
 
-### Backup coverage
-<!--- what is backed up and what is not -->
+Install and configure infrastructure with ansible:
 
-Data from MySQL and InfluxDB will be backed up. The Ansible repository will also be backed up.
+`ansible-playbook infra.yaml`
 
-MySQL and InfluxDB contain user or log information that cannot be restored any other way. 
-The rest of the services, including MySQL and InfluxDB configuration, can be restored from
-scratch quickly using Ansible.
+### MySQL
 
-The Ansible configuration (https://github.com/jp1995/ica0002) is also backed up on a local server.
+Restore MySQL data from the backup:
 
-### Backup RPO
-<!--- Recovery Point Objective - How often are backups done -->
+```
+sudo -u backup duplicity --no-encryption restore rsync://timnet238@backup.clickit.io//home/timnet238/mysql/ /home/backup/restore/
+sudo su
+mysql agama < /home/backup/restore/agama.sql
+```
 
-Under 24 hour data loss is considered acceptable. Backups are done once every day, at 01:00 am.
+To verify:
 
-### Versioning and retention
-<!--- How many backup versions are stored and for how long
-version_count = frequency * retention -->
+Query the MySQL database manually or check the web interface of Agama.
 
-Backups are stored for two weeks, which results in 14 backup versions at any given time. 
-There are three copies of every backup, two stored locally, and one remotely.
 
-### Usability checks
-<!--- How is backup usability verified -->
+### InfluxDB
 
-Backups are tested by restoring them on docker containers and inspecting the databases. 
-Simple inspection can be easily automated with a script that checks when some often used table
-was last updated.
-More detailed checks can be done manually once every month, or when new tables or databases are added.
+Restore InfluxDB data from the backup:
 
-### Restoration Criteria
-<!--- When should a system be restored from backup -->
+```
+sudo -u backup duplicity --no-encryption restore rsync://timnet238@backup.clickit.io//home/timnet238/influxdb/ /home/backup/restore/
+service telegraf stop
+influx -execute 'DROP DATABASE telegraf'
+influxd restore -portable -database telegraf /home/backup/restore
+```
 
-A backup should be restored when an incident happens that renders the data stored irrecoverable
-and / or the system inoperable. 
+To verify:
 
-Restoring the backup should always be the last option. First the following steps should be taken.
-
-* Restarting problematic services
-* Inspecting logs, general troubleshooting
-* Applying fixes to configuration
-
-If these steps do not resolve the incident, and it is certain that a restore from backup is
-necessary, then it should be done.
-
-### RTO
-<!--- Recovery Time Objective - Guarantee that the service will be restored in this time -->
-
-After an incident, the system should be restored within 4 hours.
+Query the database manually or check grafana. 

@@ -1,15 +1,27 @@
 - name: Create a backup user
   ansible.builtin.user:
     name: backup
-    home: /home/backup
+    home: /home/backup/
     shell: /bin/bash
     generate_ssh_key: yes
     ssh_key_bits: 2048
-    ssh_key_file: /home/backup/.ssh/id_rsa.pub
+    ssh_key_file: .ssh/id_rsa
     
+- name: Create /home/backup/restore directory
+  ansible.builtin.file:
+    path: /home/backup/restore
+    state: directory
+    owner: backup
+    mode: '0755'
+
+- name: Install duplicity
+  ansible.builtin.apt:
+    name: duplicity
+    state: present
+
 - name: Move file with a key
   ansible.builtin.template:
-    src: known_hosts
+    src: ../templates/known_hosts
     dest: /home/backup/.ssh/known_hosts
     owner: backup
-    group: backup
+    mode: '0755'

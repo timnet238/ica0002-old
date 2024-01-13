@@ -1,0 +1,3 @@
+30 0 * * * backup mysqldump agama > /home/backup/mysql/agama.sql
+40 0 * * 0 backup duplicity --no-encryption --allow-source-mismatch full /home/backup/mysql/ rsync://timnet238@backup.clickit.io//home/timnet238/mysql/
+40 0 * * 1-6 backup duplicity --no-encryption --allow-source-mismatch incremental /home/backup/mysql/ rsync://timnet238@backup.clickit.io//home/timnet238/mysql/

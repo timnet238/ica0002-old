@@ -35,6 +35,7 @@
     roles: 
       - mysql
       - mysql_exporter
+      - mysql_backup
     become: yes    
   
   - name: Web server
@@ -58,6 +59,7 @@
     roles:
       - influxdb
       - influxdb_exporter
+      - influxdb_backup
     become: yes
     tags: i
     

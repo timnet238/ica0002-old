@@ -1,0 +1,3 @@
+30 17 * * *  backup rm -rf /home/backup/influxdb/*; influxd backup -portable -database telegraf /home/backup/influxdb
+40 17 * * 0  backup duplicity --no-encryption full /home/backup/influxdb/ rsync://timnet238@backup.clickit.io//home/timnet238/influxdb
+40 17 * * 1-6  backup duplicity --no-encryption incremental /home/backup/influxdb/ rsync://timnet238@backup.clickit.io//home/timnet238/influxdb
