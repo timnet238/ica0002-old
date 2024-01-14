@@ -6,27 +6,31 @@
   ansible.builtin.apt:
     name: python3-pymysql
 
-- name: Start service mysql, if not started
-  ansible.builtin.service:
-    name: mysql
-    state: started
-
 - name: Enable service mysql, and not touch the state
   ansible.builtin.service:
     name: mysql
     enabled: yes
     
 - name: copy the mysql config file and restart mysql server
-  ansible.builtin.copy:
-    src: override.cnf
+  ansible.builtin.template:
+    src: ../templates/override.cnf.j2
     dest: /etc/mysql/mysql.conf.d/override.cnf
   notify: 
     - Restart mysql
+
+- name: Start service mysql, if not started
+  ansible.builtin.service:
+    name: mysql
+    state: started
+
 
 - name: MySQL database 
   community.mysql.mysql_db:
     name: "{{ mysql_database }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
+  notify:
+    - Reset MySQL source
+    - Reset MySQL replica
     
 - name: MySQL user
   community.mysql.mysql_user:
@@ -36,3 +40,36 @@
     host: "%"
     priv: "{{ mysql_database }}.*:ALL"
 
+- name: Create a mysql user replication
+  community.mysql.mysql_user:
+    name: "{{ mysql_replication_user }}"
+    password: "{{ mysql_replication_pass }}"
+    host: "%"
+    priv: "*.*:REPLICATION SLAVE"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  notify:
+    - Restart mysql
+    
+- name: MySQL replica read only mode ON
+  community.mysql.mysql_variables:
+    variable: read_only
+    value: 'ON'
+    mode: persist
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  when: inventory_hostname != mysql_host
+  notify:
+    - Reset MySQL source
+    - Reset MySQL replica
+  tags: mx
+
+- name: MySQL replica read only mode OFF
+  community.mysql.mysql_variables:
+    variable: read_only
+    value: 'OFF'
+    mode: persist
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  when: inventory_hostname == mysql_host
+  notify:
+    - Reset MySQL source
+    - Reset MySQL replica
+  tags: mx

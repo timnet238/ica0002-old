@@ -50,6 +50,7 @@
   notify:
     - Restart grafana
 
+
 - name: Add datasource file
   ansible.builtin.template:
     src: ../templates/main_datasource.yaml
@@ -65,6 +66,12 @@
   notify:
     - Restart grafana
 
+- name: Add mysql dashboard json file
+  ansible.builtin.copy:
+    src: ../files/mysql.json
+    dest: /var/lib/grafana/dashboards/
+  notify:
+    - Restart grafana
 
 - name: Add dashboard file
   ansible.builtin.template:

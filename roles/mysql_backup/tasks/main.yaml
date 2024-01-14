@@ -28,3 +28,4 @@
   ansible.builtin.template:
     src: ../templates/mysql-backup
     dest: /etc/cron.d/mysql-backup
+  tags: mx

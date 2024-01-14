@@ -36,7 +36,8 @@
       - mysql
       - mysql_exporter
       - mysql_backup
-    become: yes    
+    become: yes
+    tags: db    
   
   - name: Web server
     hosts: web_servers
