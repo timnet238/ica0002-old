@@ -6,8 +6,8 @@
      update_cache: yes
      
  - name: nginx config
-   ansible.builtin.copy:
-     src: ../nginx/files/default
+   ansible.builtin.template:
+     src: ../nginx/templates/default
      dest: /etc/nginx/sites-enabled/default
    notify:
      - Restart nginx

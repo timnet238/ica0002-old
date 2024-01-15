@@ -1,0 +1,81 @@
+- name: Add keys
+  ansible.builtin.apt_key:
+    url: https://packages.grafana.com/gpg.key
+
+- name: Add grafana repo
+  ansible.builtin.apt_repository:
+    repo: deb https://packages.grafana.com/oss/deb stable main
+  notify:
+    - apt update
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Install grafana
+  ansible.builtin.apt:
+    name: grafana
+
+- name: Start and enable grafana-server
+  ansible.builtin.service:
+    name: grafana-server
+    state: started
+    enabled: yes
+    
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Add configuration file
+  ansible.builtin.template:
+    src: ../templates/grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+  notify:
+    - Restart grafana
+    
+#- name: Update grafana password
+ # community.grafana.grafana_user:
+  #  url: "http://localhost:3000"
+   # url_username: admin
+    #url_password: admin
+    #email: timnet238@gmail.com
+    #name: "admin"
+    #login: admin
+    #password: "{{ grafana_pass }}"
+    #is_admin: true
+    #state: absent
+
+- name: Add dashboard json file
+  ansible.builtin.copy:
+    src: ../files/main.json
+    dest: /var/lib/grafana/dashboards/
+  notify:
+    - Restart grafana
+
+
+- name: Add datasource file
+  ansible.builtin.template:
+    src: ../templates/main_datasource.yaml
+    dest: /etc/grafana/provisioning/datasources/
+  notify:
+    - Restart grafana
+    
+
+- name: Add syslog dashboard json file
+  ansible.builtin.copy:
+    src: ../files/syslog.json
+    dest: /var/lib/grafana/dashboards/
+  notify:
+    - Restart grafana
+
+- name: Add mysql dashboard json file
+  ansible.builtin.copy:
+    src: ../files/mysql.json
+    dest: /var/lib/grafana/dashboards/
+  notify:
+    - Restart grafana
+
+- name: Add dashboard file
+  ansible.builtin.template:
+    src: ../templates/main_dashboard.yaml
+    dest: /etc/grafana/provisioning/dashboards/
+  notify:
+    - Restart grafana

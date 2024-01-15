@@ -42,15 +42,17 @@
   - name: Web server
     hosts: web_servers
     roles:
+      - docker
       - agama
-      - uwsgi
       - nginx
       - nginx_exporter
     become: yes
+    tags: w
   
   - name: Grafana
     hosts: grafana
     roles:
+      - docker
       - grafana
     become: yes
     tags: g
@@ -71,5 +73,9 @@
     become: yes
     tags: p
 
-
-  
+  - name: docker
+    hosts: all
+    become: yes
+    roles:
+      - docker
+    tags: docker
