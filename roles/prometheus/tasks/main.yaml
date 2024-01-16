@@ -14,13 +14,6 @@
     name: nginx
     state: present
 
-
-- name: Replace a file
-  ansible.builtin.template:
-    src: default
-    dest: /etc/nginx/sites-enabled/default
-  notify: Restart nginx
-
 - name: Apply configuration changes
   ansible.builtin.template:
     src: ../templates/prometheus.yml.j2

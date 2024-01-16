@@ -1,0 +1,44 @@
+global_defs {
+    enable_script_security
+    script_user keepalived_script
+}
+
+
+vrrp_script check_haproxy {
+    script "/home/keepalived_script/check_haproxy"
+    weight 20
+    interval 1
+}
+
+vrrp_instance main {
+    interface ens3
+    virtual_router_id 132
+    advert_int 1
+    authentication {
+      auth_type AH
+      auth_pass {{ keepalived_pass }}
+    }
+{% if inventory_hostname == 'timnet238-1' %}
+    priority 100
+{% else %}
+    priority 99
+{% endif %}
+
+    virtual_ipaddress {
+        192.168.100.{{ hostvars['timnet238-1']['ansible_default_ipv4']['address'].split('.')[-1] }}/24
+        
+    }
+
+    unicast_peer {
+{% for vm in groups['all'] %}
+{% if inventory_hostname != vm %}
+        {{ hostvars[vm]['ansible_default_ipv4']['address'] }}
+{% endif %}
+{% endfor %}
+    }
+
+    track_script {
+        check_haproxy
+    }
+}
+

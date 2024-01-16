@@ -57,6 +57,15 @@
     become: yes
     tags: g
 
+  - name: HA
+    hosts: HA_servers
+    roles:
+      - haproxy
+      - keepalived
+    become: yes
+    gather_facts: yes
+    tags: ha
+
   - name: influxdb
     hosts: influxdb
     roles:

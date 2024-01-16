@@ -53,6 +53,14 @@ grafana_pass : !vault |
           6262306135663366310a366639383031666134313136383932316134643365346431663035356435
           6434
           
+keepalived_pass : !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          34396331326531366561626537313839363532656439393263356433383636643061393436643266
+          3832613239636564356135303931376234323766643937320a393461666564376635363564636234
+          32653033386266643964356336366632316138383461363862653032323336623534613661613666
+          3265323937336262620a653461306331383339633934313532343135376361363238643638353562
+          3835
+          
 forwarders:
   - 1.1.1.1
   - 0.0.0.0
@@ -65,9 +73,6 @@ networks:
  - 127.0.0.0/8
  - 172.17.0.0/16
   
-bind9_prom_port: 9119
-mysql_prom_port: 9104
-nginx_prom_port: 9113
 
 influxdb_host: timnet238-1
 
@@ -76,4 +81,19 @@ backup_server: 192.168.42.132
 backup_server_ssh_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
 
 grafana_port: 3000
+agama_port: 9005
+haproxy_port: 88
+agama_stride: 4
+
+prometheus_port: 9090
+node_metrics_port: 9100
+bind9_prom_port: 9119
+mysql_prom_port: 9104
+nginx_prom_port: 9113
+influxdb_prom_port: 9424
+haproxy_prom_port: 9101
+keepalive_prom_port: 9165
+
+
+nginx_container_per_vm: 2
 
