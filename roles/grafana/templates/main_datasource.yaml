@@ -5,22 +5,21 @@ datasources:
    type: prometheus
    access: proxy
    orgId: 1
-   url: http://timnet238-2:9090/prometheus
+   url: http://prometheus:{{ prometheus_port }}/prometheus
    isDefault: true
    version: 1
    editable: true
 
-   
  - name: InfluxDB
    type: influxdb
    access: proxy
-   url: http://timnet238-1:8086
+   url: http://influxdb:8086
    database: latency
    editable: true
 
  - name: InfluxDB-telegraf
    type: influxdb
    access: proxy
-   url: http://timnet238-1:8086
+   url: http://influxdb:8086
    database: telegraf
    editable: true

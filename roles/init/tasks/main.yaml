@@ -12,3 +12,9 @@
     dest: /etc/rsyslog.d/10-telegraf.conf
   notify:
     - Restart rsyslog
+  
+- name: hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+    use: debian
+  diff: yes

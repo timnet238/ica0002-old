@@ -656,7 +656,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "haproxy_up{instance=\"timnet238-1:9101\"}",
+          "expr": "haproxy_up{instance=\"vm1:9101\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -757,7 +757,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": false,
-          "expr": "haproxy_server_up{instance=\"timnet238-1:9101\"}",
+          "expr": "haproxy_server_up{instance=\"vm1:9101\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{server}}",
@@ -858,7 +858,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": false,
-          "expr": "keepalived_vrrp_state{instance=\"timnet238-1:9165\"}",
+          "expr": "keepalived_vrrp_state{instance=\"vm1:9165\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -1044,7 +1044,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "haproxy_up{instance=\"timnet238-2:9101\"}",
+          "expr": "haproxy_up{instance=\"vm2:9101\"}",
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
@@ -1144,7 +1144,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": false,
-          "expr": "haproxy_server_up{instance=\"timnet238-2:9101\"}",
+          "expr": "haproxy_server_up{instance=\"vm2:9101\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{server}}",
@@ -1245,7 +1245,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": false,
-          "expr": "keepalived_vrrp_state{instance=\"timnet238-2:9165\"}",
+          "expr": "keepalived_vrrp_state{instance=\"vm2:9165\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{instance}}",

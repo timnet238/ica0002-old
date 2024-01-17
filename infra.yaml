@@ -20,8 +20,15 @@
   - name: DNS setup
     hosts: all
     roles:
-      - dns
+      - dns_resolved
     become: yes 
+    
+  - name: dns_records
+    hosts: dns_master
+    roles:
+      - dns_records
+    become: yes
+    tags: rec
     
   - name: Prometheus
     hosts: prometheus
@@ -42,10 +49,10 @@
   - name: Web server
     hosts: web_servers
     roles:
+      - nginx
+      - nginx_exporter      
       - docker
       - agama
-      - nginx
-      - nginx_exporter
     become: yes
     tags: w
   
@@ -82,9 +89,3 @@
     become: yes
     tags: p
 
-  - name: docker
-    hosts: all
-    become: yes
-    roles:
-      - docker
-    tags: docker

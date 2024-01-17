@@ -1,3 +1,19 @@
+- name: install iptables-persistent
+  ansible.builtin.apt:
+    name: iptables-persistent
+    state: present
+
+- name: Fix ssl bug for docker
+  ansible.builtin.copy:
+    src: ../files/iptables.mangle
+    dest: /etc/iptables/rules.v4
+
+- name: Restore iptables
+  community.general.iptables_state:
+    path: /etc/iptables/rules.v4
+    state: restored
+    table: mangle
+
 - name: install docker package
   ansible.builtin.apt:
     name:
@@ -9,4 +25,3 @@
     name: docker
     state: started
     enabled: yes
-

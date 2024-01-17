@@ -1,25 +1,50 @@
 - name: Install bind9
   ansible.builtin.apt:
     name: bind9
+    state: present
 
-- name: Configure access rules for DNS server
+- name: install python3-dnspython
+  ansible.builtin.apt:
+    name: python3-dnspython
+    state: present
+
+- name: Start and enable bind9 service
+  ansible.builtin.service:
+    name: bind9
+    state: started
+    enabled: yes
+
+- name: Configure DNS forwarders
   ansible.builtin.template:
-    src: named.conf.options.j2
+    src: ../templates/named.conf.options.j2
     dest: /etc/bind/named.conf.options
+  no_log: true
+  notify:
+  - Restart bind9
+
+- name: Configure DNS master zone
+  when: inventory_hostname in groups['dns_master']
+  ansible.builtin.template:
+    src: ../templates/db.clickit
+    dest: /var/cache/bind/db.{{ startup_domain }}
+    force: no
   notify:
     - Restart bind9
+    - rndc reload
 
-- name: Configure 
+- name: Configure reverse zone
+  when: inventory_hostname in groups['dns_master']
   ansible.builtin.template:
-    src: named.conf.local.j2
+    src: ../templates/db.clickit.reverse
+    dest: /var/cache/bind/db.{{ startup_domain }}.reverse
+    force: no
+  notify:
+    - Restart bind9
+    - rndc reload
+
+- name: Reference master zone
+  ansible.builtin.template:
+    src: ../templates/named.conf.local.j2
     dest: /etc/bind/named.conf.local
   notify:
-    - Restart bind9
-
-- name: Configure 
-  ansible.builtin.template:
-    src: db.clickit.io.j2
-    dest: /var/lib/bind/db.clickit.io
-  notify:
-    - Restart bind9
-
+  - Restart bind9

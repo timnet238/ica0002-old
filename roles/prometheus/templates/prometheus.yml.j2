@@ -7,13 +7,13 @@ scrape_configs:
     scrape_interval: 5s
     metrics_path: /prometheus/metrics
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['localhost:{{ prometheus_port }}']
 
   - job_name: linux
     static_configs:
       - targets:
           {% for vm in groups['all'] %}
-          - '{{ vm }}:9100'
+          - '{{ vm }}:{{ node_metrics_port }}'
           {% endfor %}
 
   - job_name: bind9

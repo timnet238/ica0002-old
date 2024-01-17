@@ -1,6 +1,6 @@
-timnet238-1 ansible_host=193.40.156.67 ansible_port=15822 ansible_ssh_user=ubuntu
-timnet238-2 ansible_host=193.40.156.67 ansible_port=2922  ansible_ssh_user=ubuntu
-
+timnet238-1 ansible_host=193.40.156.67 ansible_port=35822 ansible_ssh_user=ubuntu
+timnet238-2 ansible_host=193.40.156.67 ansible_port=31622  ansible_ssh_user=ubuntu
+timnet238-3 ansible_host=193.40.156.67 ansible_port=31622  ansible_ssh_user=ubuntu
 
 [web_servers]
 timnet238-1
@@ -10,20 +10,28 @@ timnet238-2
 timnet238-1
 timnet238-2
 
-[dns_servers]
+[dns_master]
+timnet238-3
+
+[dns_slaves]
+timnet238-1
 timnet238-2
+
+[dns_servers:children]
+dns_master
+dns_slaves
 
 [prometheus]
-timnet238-2
+timnet238-3
 
 [grafana]
-timnet238-1
+timnet238-3
 
 [influxdb]
-timnet238-1
+timnet238-3
 
 [pinger]
-timnet238-1
+timnet238-3
 
 [HA_servers]
 timnet238-1
