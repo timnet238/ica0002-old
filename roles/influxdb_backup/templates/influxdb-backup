@@ -1,4 +1,4 @@
 30 0 * * *  backup bash -c "rm -rf /home/backup/influxdb/*; influxd backup -portable -database telegraf /home/backup/influxdb"
-40 0 * * 0  backup duplicity --no-encryption --allow-source-mismatch full /home/backup/influxdb/ rsync://timnet238@backup.clickit.io//home/timnet238/influxdb
+40 0 * * 0  backup duplicity --no-encryption --allow-source-mismatch full /home/backup/influxdb/ rsync://timnet238@backup.clickit.io/influxdb
 40 0 * * 1-6  backup duplicity --no-encryption --allow-source-mismatch incremental /home/backup/influxdb/ rsync://timnet238@backup.clickit.io//home/timnet238/influxdb
 
